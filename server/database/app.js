@@ -19,15 +19,12 @@ const Reviews = require('./review');
 const Dealerships = require('./dealership');
 
 try {
-  Reviews.deleteMany({}).then(()=>{
-    Reviews.insertMany(reviews_data['reviews']);
-  });
-  Dealerships.deleteMany({}).then(()=>{
-    Dealerships.insertMany(dealerships_data['dealerships']);
-  });
-  
+  await Reviews.deleteMany({});
+  await Reviews.insertMany(reviews_data['reviews']);
+  await Dealerships.deleteMany({});
+  await Dealerships.insertMany(dealerships_data['dealerships']);
 } catch (error) {
-  res.status(500).json({ error: 'Error fetching documents' });
+  console.error('Error initializing database:', error);
 }
 
 
