@@ -12,24 +12,24 @@ sentiment_analyzer_url = os.getenv(
     default="http://localhost:5050/")
 
 def get_request(endpoint, **kwargs):
-    params = ""
-    if(kwargs):
-        for key,value in kwargs.items():
-            params=params+key+"="+value+"&"
+    from urllib.parse import urlencode
 
-    request_url = backend_url+endpoint+"?"+params
+    request_url = backend_url + endpoint
+    if kwargs:
+        request_url += "?" + urlencode(kwargs)
 
-    print("GET from {} ".format(request_url))
+    print("GET from:", request_url)
     try:
-        # Call get method of requests library with URL and parameters
         response = requests.get(request_url)
+        response.raise_for_status()  # raises an error for bad status codes
         return response.json()
-    except:
-        # If any error occurs
-        print("Network exception occurred")
+    except Exception as e:
+        print(f"Network exception occurred: {e}")
+        return None
+
 
 def analyze_review_sentiments(text):
-    request_url = sentiment_analyzer_url + "analyze/" + text
+    request_url = sentiment_analyzer_url+"analyze/"+text
     try:
         # Call get method of requests library with URL and parameters
         response = requests.get(request_url)
@@ -37,7 +37,6 @@ def analyze_review_sentiments(text):
     except Exception as err:
         print(f"Unexpected {err=}, {type(err)=}")
         print("Network exception occurred")
-        return None
 
 
 def post_review(data_dict):
