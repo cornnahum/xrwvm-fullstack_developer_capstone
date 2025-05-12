@@ -18,15 +18,20 @@ const Reviews = require('./review');
 
 const Dealerships = require('./dealership');
 
-try {
-  await Reviews.deleteMany({});
-  await Reviews.insertMany(reviews_data['reviews']);
-  await Dealerships.deleteMany({});
-  await Dealerships.insertMany(dealerships_data['dealerships']);
-} catch (error) {
-  console.error('Error initializing database:', error);
+async function initializeDatabase() {
+  try {
+    await Reviews.deleteMany({});
+    await Reviews.insertMany(reviews_data['reviews']);
+    await Dealerships.deleteMany({});
+    await Dealerships.insertMany(dealerships_data['dealerships']);
+    console.log('Database initialized successfully');
+  } catch (error) {
+    console.error('Error initializing database:', error);
+  }
 }
 
+// Call the async function
+initializeDatabase();
 
 // Express route to home
 app.get('/', async (req, res) => {

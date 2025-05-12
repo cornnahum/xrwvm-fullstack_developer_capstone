@@ -12,6 +12,10 @@ python3 -m virtualenv djangoenv
 python3 -m pip install -U -r requirements.txt
 python3 manage.py makemigrations
 python3 manage.py migrate
+python3 manage.py runserver
+
+cd C:\Users\cornn\source\repos\xrwvm-fullstack_developer_capstone\server\database
+docker-compose up --build
 
 cd /home/project/xrwvm-fullstack_developer_capstone/server/frontend
 npm install
